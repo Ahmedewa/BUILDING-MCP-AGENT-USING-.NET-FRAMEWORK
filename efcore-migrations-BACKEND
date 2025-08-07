@@ -1,0 +1,36 @@
+       EF-MIGRATIONS-INITIALCREATE
+
+     **Use Migrations**
+    
+Install EF Core Tools:
+
+bash
+Copy
+dotnet tool install --global dotnet-ef
+dotnet add package Microsoft.EntityFrameworkCore.Design
+Add a Migration:
+
+bash
+Copy
+dotnet ef migrations add InitialCreate
+Apply Migrations:
+
+bash
+Copy
+dotnet ef database update
+3.2 Optimize Queries with Indexes
+Add Indexes in Migration:
+
+csharp
+Copy
+protected override void Up(MigrationBuilder migrationBuilder)
+{
+    migrationBuilder.CreateIndex(
+        name: "IX_Users_Email",
+        table: "Users",
+        column: "Email",
+        unique: true);
+}
+Validate Indexes:
+Use tools like pgAdmin to verify indexes in PostgreSQL.
+
