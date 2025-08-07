@@ -1,0 +1,67 @@
+2. Single Tech Stack
+2.1 Why Choose a Single Tech Stack?
+Consistency: Easier to onboard developers with unified tools.
+Efficiency: Shared libraries and tooling improve productivity.
+Maintainability: Easier to debug and extend.
+2.2 Recommended Single Tech Stack for MCP App
+Layer	Technology
+Frontend	React.js
+Backend	ASP.NET Core
+Database	PostgreSQL
+Deployment	Docker + Kubernetes
+Monitoring	Prometheus + Grafana
+CI/CD	GitHub Actions
+2.3 Implementation Example
+Single Tech Stack Workflow
+Frontend: React for UI
+
+Use Material-UI for styling.
+Use React Router for navigation.
+Backend: ASP.NET Core API
+
+
+            **API DSOCUMENTATION -SWAGGER**
+
+##**Use Swagger for API documentation:**##
+
+bash
+Copy
+dotnet add package Swashbuckle.AspNetCore
+Enable Swagger in Program.cs:
+
+csharp
+Copy
+app.UseSwagger();
+app.UseSwaggerUI();
+Database: PostgreSQL
+
+Use Entity Framework Core for ORM.
+CI/CD: GitHub Actions
+
+Workflow for testing and deployment:
+yaml
+Copy
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0'
+
+      - name: Build and Test
+        run: dotnet build && dotnet test
+
+      - name: Build Docker Image
+        run: docker build -t mcpapp .
