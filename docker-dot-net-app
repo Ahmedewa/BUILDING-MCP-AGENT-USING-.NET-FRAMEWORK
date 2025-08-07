@@ -1,0 +1,61 @@
+   DOCKERIZATION[CONTAINERIZATION] OF THE MCP APP
+
+
+Dockerize the App
+Step 1: Backend Dockerfile
+dockerfile
+Copy
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 5000
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet build -c Release -o /app
+
+FROM build AS publish
+WORKDIR /app
+RUN dotnet publish -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "MCPApp.dll"]
+Step 2: Frontend Dockerfile
+dockerfile
+Copy
+FROM node:16 AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+Step 3: Docker-Compose
+yaml
+Copy
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mcpdb
+    ports:
+      - "5432:5432"
