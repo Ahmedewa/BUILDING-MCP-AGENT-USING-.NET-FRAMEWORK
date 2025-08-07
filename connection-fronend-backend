@@ -1,0 +1,31 @@
+
+
+** Frontend Setup**
+
+Step 1: Install Dependencies
+Install essential libraries:
+bash
+Copy
+npm install axios react-router-dom @mui/material
+Step 2: Connect Frontend to Backend
+Configure Axios:
+
+typescript
+Copy
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api',
+});
+
+export default api;
+ API Call:
+
+typescript
+Copy
+import api from './api';
+
+const fetchUsers = async () => {
+    const response = await api.get('/users');
+    console.log(response.data);
+};
