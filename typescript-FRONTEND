@@ -1,0 +1,52 @@
+           FRONTEND[React.js]
+
+1. Frontend Best Practices
+1.1 Use TypeScript for Type Safety
+Why TypeScript?
+Adds static typing for JavaScript, reducing runtime errors.
+Improves IDE support (e.g., IntelliSense).
+Makes code more maintainable for large teams.
+Example: React + TypeScript Setup
+Initialize a React Project with TypeScript:
+
+bash
+Copy
+npx create-react-app mcp-frontend --template typescript
+cd mcp-frontend
+Example Component with Props and State:
+src/components/UserCard.tsx:
+
+typescript
+Copy
+import React from 'react';
+
+type User = {
+    id: number;
+    name: string;
+    email: string;
+};
+
+const UserCard: React.FC<{ user: User }> = ({ user }) => {
+    return (
+        <div>
+            <h3>{user.name}</h3>
+            <p>{user.email}</p>
+        </div>
+    );
+};
+
+export default UserCard;
+Strict TypeScript Configuration:
+Update tsconfig.json:
+
+json
+Copy
+{
+    "compilerOptions": {
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true
+    }
+}
+Resources
+TypeScript for
