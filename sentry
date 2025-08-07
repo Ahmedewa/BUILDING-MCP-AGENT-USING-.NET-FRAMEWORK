@@ -1,0 +1,46 @@
+              SENTRY[ERROR TRACKING &CORRECTION]
+
+
+
+## **1. Breadcrumbs for Contextual Information on Errors (Sentry)**
+
+### **1.1 Using Breadcrumbs in Sentry**
+Breadcrumbs provide rich contextual data for debugging errors, such as user actions or system events leading to the issue.
+
+#### **Implementation in .NET**
+1. **Install Sentry SDK**:
+   ```bash
+   dotnet add package Sentry.AspNetCore
+   ```
+
+2. **Configure Breadcrumbs in `Program.cs`**:
+   ```csharp
+   using Sentry;
+
+   var builder = WebApplication.CreateBuilder(args);
+
+   builder.WebHost.UseSentry(options =>
+   {
+       options.BeforeSend = @event =>
+       {
+           // Add custom breadcrumbs
+           SentrySdk.AddBreadcrumb("User clicked 'Submit'", category: "UI", type: "action");
+           return @event;
+       };
+   });
+
+   var app = builder.Build();
+   app.MapControllers();
+   app.Run();
+   ```
+
+3. **Manually Add Breadcrumbs**:
+   ```csharp
+   SentrySdk.AddBreadcrumb("Database query executed", "database");
+   ```
+
+---
+
+### **1.2 Set Up Release Tracking**
+Release tracking in Sentry helps identify regressions by associating errors with specific code versions.
+
