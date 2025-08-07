@@ -1,0 +1,25 @@
+              PROJECT DIRECTORY
+
+
+#### **Step 3: Project Directory Structure**
+Organize your project for maintainability:
+```
+MCPApp/
+├── backend/
+│   ├── Controllers/
+│   ├── Models/
+│   ├── Services/
+│   ├── Program.cs
+│   ├── appsettings.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.tsx
+│   │   ├── index.tsx
+├── docker-compose.yml
+├── README.md
+```
+
+---
+
