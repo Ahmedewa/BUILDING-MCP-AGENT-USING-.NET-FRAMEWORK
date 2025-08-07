@@ -1,0 +1,161 @@
+     COMPONENT LIBRARIES[MATERIAL UI]
+
+
+**Use Component Libraries**
+  
+Material-UI for Consistent UI
+Install Material-UI:
+
+bash
+Copy
+npm install @mui/material @emotion/react @emotion/styled
+Example Usage:
+src/components/UserList.tsx:
+
+typescript
+Copy
+import React from 'react';
+import { Card, CardContent, Typography } from '@mui/material';
+
+const UserList: React.FC<{ users: { name: string; email: string }[] }> = ({ users }) => {
+    return (
+        <>
+            {users.map((user, index) => (
+                <Card key={index} style={{ margin: '10px' }}>
+                    <CardContent>
+                        <Typography variant="h5">{user.name}</Typography>
+                        <Typography variant="body2">{user.email}</Typography>
+                    </CardContent>
+                </Card>
+            ))}
+        </>
+    );
+};
+
+export default UserList;
+Ant Design for Enterprise Applications
+Install Ant Design:
+
+bash
+Copy
+npm install antd
+Example Usage:
+src/components/UserTable.tsx:
+
+typescript
+Copy
+import React from 'react';
+import { Table } from 'antd';
+
+const columns = [
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+];
+
+const UserTable: React.FC<{ users: { name: string; email: string }[] }> = ({ users }) => {
+    return <Table dataSource={users} columns={columns} />;
+};
+
+export default UserTable;
+Resources
+Material-UI Documentation
+Ant Design Documentation
+2. Backend Best Practices
+2.1 Use Dependency Injection (DI)
+Why DI?
+Promotes modularity and testability.
+Reduces tightly coupled code.
+Swappable implementations for testing (e.g., mock services).
+Implementation in ASP.NET Core
+Register Services in Program.cs:
+
+csharp
+Copy
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddScoped<IUserService, UserService>();
+
+var app = builder.Build();
+app.MapControllers();
+app.Run();
+Example Service:
+Services/IUserService.cs:
+
+csharp
+Copy
+public interface IUserService
+{
+    Task<List<User>> GetAllUsersAsync();
+}
+Services/UserService.cs:
+
+csharp
+Copy
+public class UserService : IUserService
+{
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+        // Simulate fetching users
+        return await Task.FromResult(new List<User>
+        {
+            new User { Id = 1, Name = "John Doe", Email = "john@example.com" }
+        });
+    }
+}
+Inject Service into Controller:
+Controllers/UserController.cs:
+
+csharp
+Copy
+[ApiController]
+[Route("api/[controller]")]
+public class UserController : ControllerBase
+{
+    private readonly IUserService _userService;
+
+    public UserController(IUserService userService)
+    {
+        _userService = userService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetUsers()
+    {
+        var users = await _userService.GetAllUsersAsync();
+        return Ok(users);
+    }
+}
+2.2 Enable Logging with Serilog
+Install Serilog:
+
+bash
+Copy
+dotnet add package Serilog.AspNetCore
+dotnet add package Serilog.Sinks.Console
+Configure Logging:
+Program.cs:
+
+csharp
+Copy
+using Serilog;
+
+var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+var app = builder.Build();
+app.MapControllers();
+app.Run();
+Log Messages:
+
+csharp
+Copy
+Log.Information("Application starting...");
+Resources
+Serilog Documentation
+3. Database Best Practices
