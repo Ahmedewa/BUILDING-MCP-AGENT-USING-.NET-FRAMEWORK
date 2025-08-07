@@ -1,0 +1,63 @@
+    ##** AUTOMATION-TRACKING-SENTRY**##
+
+##**Sentry tracking via 'Breadcrumbs & Automation with"github Action Workflows"**##
+
+
+1. **Upload Source Maps via GitHub Actions**:
+   ```yaml
+   name: Upload Sentry Release
+
+   on:
+     push:
+       branches:
+         - main
+
+   jobs:
+     upload-sentry:
+       runs-on: ubuntu-latest
+
+       steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+         
+         - name: Install Sentry CLI
+           run: curl -sL https://sentry.io/get-cli/ | bash
+
+         - name: Create Sentry Release
+           run: |
+             sentry-cli releases new ${{ github.sha }}
+             sentry-cli releases files ${{ github.sha }} upload-sourcemaps ./wwwroot
+             sentry-cli releases finalize ${{ github.sha }}
+   ```
+
+---
+
+1. **Upload Source Maps via GitHub Actions**:
+   ```yaml
+   name: Upload Sentry Release
+
+   on:
+     push:
+       branches:
+         - main
+
+   jobs:
+     upload-sentry:
+       runs-on: ubuntu-latest
+
+       steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+         
+         - name: Install Sentry CLI
+           run: curl -sL https://sentry.io/get-cli/ | bash
+
+         - name: Create Sentry Release
+           run: |
+             sentry-cli releases new ${{ github.sha }}
+             sentry-cli releases files ${{ github.sha }} upload-sourcemaps ./wwwroot
+             sentry-cli releases finalize ${{ github.sha }}
+   ```
+
+---
+
