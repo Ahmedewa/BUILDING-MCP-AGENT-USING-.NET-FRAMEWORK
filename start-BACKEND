@@ -1,0 +1,102 @@
+** .NET FRAMEWORK-WRITING[STARTING]-THE CODE**
+
+
+### ** Setting Up a .NET Project**
+
+1. **Create a New Web API Project**:
+   ```bash
+   dotnet new webapi -o MCPApp
+   cd MCPApp
+   ```
+
+2. **Install Dependencies**:
+   - **Entity Framework Core for Database**:
+     ```bash
+     dotnet add package Microsoft.EntityFrameworkCore
+     dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+     ```
+
+   - **XUnit for Testing**:
+     ```bash
+     dotnet add package xunit
+     dotnet add package Microsoft.NET.Test.Sdk
+     ```
+
+---
+
+### **2.2 Project Structure**
+
+```
+MCPApp/
+├── Controllers/
+│   ├── UsersController.cs
+├── Models/
+│   ├── User.cs
+├── Data/
+│   ├── AppDbContext.cs
+├── Tests/
+│   ├── UserControllerTests.cs
+├── Program.cs
+├── appsettings.json
+```
+
+---
+
+### **2.3 Writing the Code**
+
+#### **2.3.1 Backend (ASP.NET Core)**
+
+**`Models/User.cs`:**
+```csharp
+public class User
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+```
+
+**`Data/AppDbContext.cs`:**
+```csharp
+using Microsoft.EntityFrameworkCore;
+
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public DbSet<User> Users { get; set; }
+}
+```
+
+**`Controllers/UsersController.cs`:**
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+[ApiController]
+[Route("api/[controller]")]
+public class UsersController : ControllerBase
+{
+    private readonly AppDbContext _context;
+
+    public UsersController(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetUsers()
+    {
+        var users = await _context.Users.ToListAsync();
+        return Ok(users);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddUser([FromBody] User user)
+    {
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetUsers), new { id = user.Id }, user);
+    }
+}
+```
+
+---
+
