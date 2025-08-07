@@ -1,0 +1,66 @@
+                 POSTGRESQL- SUPABASE[DATABASE]
+
+
+## **2. Supabase**
+
+### **2.1 Leverage Row Level Security (RLS)**
+
+RLS enforces fine-grained access control at the database level.
+
+#### **Step 1: Enable RLS**
+1. Go to **Supabase Dashboard > Authentication > Policies**.
+2. Enable RLS for the desired table.
+   ```sql
+   ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+   ```
+
+#### **Step 2: Add Policies**
+1. Define policies:
+   ```sql
+   CREATE POLICY "Only allow access to own data"
+   ON users
+   FOR SELECT
+   USING (auth.uid() = id);
+   ```
+
+#### **Step 3: Secure API Requests**
+Ensure you pass a valid **JWT token** to authenticate the request:
+```csharp
+var client = new Supabase.Client("https://<supabase-url>", "<supabase-api-key>");
+await client.InitializeAsync();
+
+var user = await client.From<User>().Get();
+```
+
+---
+
+### **2.2 Use Supabase Edge Functions**
+
+Edge Functions allow you to execute serverless logic close to the user.
+
+#### **Step 1: Create an Edge Function**
+1. Install Supabase CLI:
+   ```bash
+   npm install -g supabase
+   ```
+
+2. Initialize a new function:
+   ```bash
+   supabase functions new process_data
+   ```
+
+3. Write the function:
+   ```javascript
+   export default async (req, res) => {
+       const { data } = await req.json();
+       res.status(200).json({ message: `Processed: ${data}` });
+   };
+   ```
+
+4. Deploy the function:
+   ```bash
+   supabase functions deploy process_data
+   ```
+
+---
+
