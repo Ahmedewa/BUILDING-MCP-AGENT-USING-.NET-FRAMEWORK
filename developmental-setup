@@ -1,0 +1,57 @@
+           **DEVELOPMENTAL SETUP**
+
+
+
+## **1. Developmental Setup**
+
+### **1.1 Setting Up the Development Environment**
+
+#### **Step 1: Prerequisites**
+- **Install Development Tools**:
+  - **.NET SDK** (for backend): [Download .NET](https://dotnet.microsoft.com/download)
+  - **Node.js** (for frontend): [Download Node.js](https://nodejs.org/)
+  - **Docker**: [Install Docker](https://www.docker.com/)
+  - **PostgreSQL** (or Supabase): [PostgreSQL Download](https://www.postgresql.org/download/)
+  - **Git**: [Download Git](https://git-scm.com/)
+
+- **Install Code Editor**:
+  - **Visual Studio Code (VSCode)**: [Download VSCode](https://code.visualstudio.com/)
+
+- **Install Optional Tools**:
+  - **Postman** for API testing: [Download Postman](https://www.postman.com/)
+
+---
+
+#### **Step 2: Development Frameworks**
+
+1. **Backend**: ASP.NET Core
+   - Install .NET CLI:
+     ```bash
+     dotnet --version
+     ```
+
+   - Create a new web API:
+     ```bash
+     dotnet new webapi -o MCPApp
+     cd MCPApp
+     ```
+
+2. **Frontend**: React.js (TypeScript)
+   - Install React CLI:
+     ```bash
+     npx create-react-app mcp-frontend --template typescript
+     cd mcp-frontend
+     ```
+
+3. **Database**: PostgreSQL (or Supabase)
+   - Run PostgreSQL locally via Docker:
+     ```bash
+     docker run --name postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
+     ```
+
+   - Connect to PostgreSQL using a client like **pgAdmin** or **DBeaver**.
+
+---
+
+
+This guide provides a **complete setup** for development and a well-defined **single tech stack** for your **MCP App**. Let me know if you need help with specific implementations! 🚀  
