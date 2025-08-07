@@ -1,0 +1,60 @@
+    DEPLOYMENT BEST PRACTICES-KUBERNETES FOR SCALING
+
+**Deployment Best Practices**
+
+** Use Kubernetes for Scaling
+Create a Deployment Manifest**:
+
+deployment.yaml:
+
+yaml
+Copy
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mcp-app
+  template:
+    metadata:
+      labels:
+        app: mcp-app
+    spec:
+      containers:
+      - name: mcp-app
+        image: mcp-app-image:latest
+        ports:
+        - containerPort: 80
+Apply the Deployment:
+
+bash
+Copy
+kubectl apply -f deployment.yaml
+4.2 Monitor with Prometheus and Grafana
+Install Prometheus and Grafana via Helm:
+
+bash
+Copy
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add grafana https://grafana.github.io/helm-charts
+helm install prometheus prometheus-community/prometheus
+helm install grafana grafana/grafana
+Access Metrics in Prometheus:
+Monitor app health using /metrics endpoints exposed in your app.
+
+Visualize Metrics in Grafana:
+Connect Grafana to Prometheus as a data source and create dashboards.
+
+Resources
+Prometheus Documentation
+Grafana Documentation
+Summary
+This guide provides detailed solutions for:
+
+Frontend: TypeScript for type safety, Material-UI/Ant Design for UI.
+Backend: Dependency Injection for modularity, Serilog for logging.
+Database: Migrations for schema changes, indexes for query optimization.
+Deployment: Kubernetes for scaling, Prometheus/Grafana for monitoring.
