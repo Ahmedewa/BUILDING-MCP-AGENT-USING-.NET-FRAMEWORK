@@ -1,0 +1,28 @@
+               **MONITORING USING GRAFANA & PROMETHEUS**
+
+
+
+## **Monitoring and Scaling**
+
+### **Prometheus and Grafana**
+
+#### **Prometheus Setup**:
+1. Add Prometheus metrics endpoint in .NET:
+   ```csharp
+   app.UseEndpoints(endpoints =>
+   {
+       endpoints.MapMetrics();
+   });
+   ```
+
+2. Deploy Prometheus using Docker:
+   ```yaml
+   services:
+     prometheus:
+       image: prom/prometheus
+       ports:
+         - "9090:9090"
+   ```
+
+---
+
