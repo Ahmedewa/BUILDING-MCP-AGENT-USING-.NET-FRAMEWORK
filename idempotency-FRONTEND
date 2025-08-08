@@ -1,0 +1,31 @@
+             **IDEMPOTENCY FRONTEND**
+
+
+
+### **1.2 Idempotency in Frontend (React.js)**
+
+#### **Generate Unique Request Identifiers**
+```javascript
+import { v4 as uuidv4 } from 'uuid';
+
+const requestData = {
+    idempotencyKey: uuidv4(),
+    payload: { /* Your data */ },
+};
+
+fetch('/process', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(requestData),
+});
+```
+
+---
+
+### **Best Practices**
+- Set a **TTL (time-to-live)** for idempotency keys in the database to prevent storage bloat.
+- Use **UUIDs** or **hashes** of the payload as idempotency keys.
+- Ensure **idempotency keys are unique per operation** (e.g., payment processing, order creation).
+
+---
+
