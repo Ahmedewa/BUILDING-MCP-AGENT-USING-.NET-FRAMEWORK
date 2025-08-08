@@ -1,0 +1,56 @@
+                      ALERTS SENTRY
+
+
+## ** Setting Up Alerts in Sentry**
+
+### ** Why Alerts?**
+Sentry alerts notify you of critical issues such as unhandled exceptions, performance bottlenecks, or specific error thresholds.
+
+### **2.2 Configure Alerts**
+
+1. **Create Issue Alerts in Sentry**:
+   - Go to your **Sentry Project Settings** > **Alerts** > **Issue Alerts**.
+   - Click **Create Alert Rule** and configure:
+     - **Condition**: e.g., `"When an issue is first seen"`.
+     - **Action**: e.g., `"Send a notification to Slack"`.
+
+2. **Alert Rule**:
+   - Trigger: **An issue is first seen**.
+   - Notify: Email, Slack, or PagerDuty.
+
+3. **Slack Integration**:
+   - Add the **Sentry app** to your Slack workspace.
+   - Configure alerts to send notifications to a specific channel.
+
+---
+
+### **2.3 Code  for Custom Alerts**
+
+#### **Frontend (React.js)**:
+Capture specific issues and send custom tags:
+```javascript
+import * as Sentry from '@sentry/react';
+
+Sentry.captureMessage('Custom Warning', {
+   level: 'warning',
+   tags: { module: 'auth', severity: 'low' },
+});
+```
+
+#### **Backend (.NET)**:
+Add custom tags to captured exceptions:
+```csharp
+try
+{
+    // Simulate an error
+    throw new Exception("Test exception");
+}
+catch (Exception ex)
+{
+    SentrySdk.CaptureException(ex, scope =>
+    {
+        scope.SetTag("module", "auth");
+        scope.SetTag("severity", "high");
+    });
+}
+```
