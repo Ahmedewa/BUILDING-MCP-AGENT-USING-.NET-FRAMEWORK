@@ -1,0 +1,28 @@
+                  MONITORING-FAILURE-TOLERANCE-[GRAFANA & PROMETHEUS]
+
+
+### ** Monitoring**
+
+#### **Prometheus Metrics**
+1. Add custom metrics (e.g., request counts, error rates) in .NET:
+   ```csharp
+   using Prometheus;
+
+   var counter = Metrics.CreateCounter("http_requests_total", "Total number of HTTP requests");
+
+   app.Use(async (context, next) =>
+   {
+       counter.Inc();
+       await next();
+   });
+   ```
+
+#### **Grafana Visualization**
+1. Use Grafana to visualize metrics from Prometheus.
+2. Create dashboards for:
+   - Request latency
+   - Error rates
+   - System resource utilization
+
+---
+
