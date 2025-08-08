@@ -1,0 +1,33 @@
+             KUBERNETES AUTO-SCALING
+
+### ** Kubernetes Auto-Scaling**
+
+#### **Horizontal Pod Autoscaler**:
+1. Create HPA configuration:
+   ```yaml
+   apiVersion: autoscaling/v1
+   kind: HorizontalPodAutoscaler
+   metadata:
+     name: mcp-app-hpa
+   spec:
+     scaleTargetRef:
+       apiVersion: apps/v1
+       kind: Deployment
+       name: mcp-app
+     minReplicas: 2
+     maxReplicas: 10
+     targetCPUUtilizationPercentage: 50
+   ```
+
+2. Deploy HPA:
+   ```bash
+   kubectl apply -f hpa.yaml
+   ```
+
+---
+
+### **6.3 Cost Optimization**
+- Use **spot instances** in AWS/GCP for cost-efficient scaling.
+- Reserve resources in Azure for predictable workloads.
+
+---
