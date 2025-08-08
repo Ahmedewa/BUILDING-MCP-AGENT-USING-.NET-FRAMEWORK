@@ -1,0 +1,33 @@
+         AUTOMATE CODE QUALITY TESTING
+
+
+### **CI/CD Integration for Quality Assurance**
+1. Use GitHub Actions for automated testing:
+   ```yaml
+   name: CI/CD Pipeline
+
+   on:
+     push:
+       branches:
+         - main
+   jobs:
+     build-and-test:
+       runs-on: ubuntu-latest
+       steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+
+         - name: Install dependencies
+           run: npm install
+
+         - name: Run tests
+           run: npm test
+   ```
+
+---
+
+### **Summary**
+
+This guide helps you:
+1. Build **idempotency** into your app for safe retries.
+2. Add failure-tolerant mechanisms like **ta
