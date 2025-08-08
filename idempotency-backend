@@ -1,0 +1,50 @@
+           IDEMPOTENCY BACKEND[.NET]
+
+
+
+## **1. Building Idempotency into the App Design**
+
+### **What is Idempotency?**
+- **Idempotency** ensures that multiple identical requests have the same effect as a single request.
+- It prevents issues arising from duplicate operations (e.g., retries during network failures).
+
+---
+
+### **1.1 Idempotency in Backend (.NET)**
+
+#### **Generate Idempotency Keys**
+1. Use **client-generated keys** for requests (e.g., UUIDs).
+2. Store these keys in a database to track already processed requests.
+
+#### **Implementation**
+```csharp
+app.MapPost("/process", async (HttpContext context, [FromBody] RequestModel request) =>
+{
+    var db = context.RequestServices.GetService<MyDbContext>();
+
+    // Check if request has already been processed
+    var existingRequest = await db.IdempotencyKeys.FindAsync(request.IdempotencyKey);
+    if (existingRequest != null)
+    {
+        return Results.Conflict("Request has already been processed.");
+    }
+
+    // Store the idempotency key
+    db.IdempotencyKeys.Add(new IdempotencyKey { Key = request.IdempotencyKey });
+    await db.SaveChangesAsync();
+
+    // Process the request
+    // (Business logic here)
+    return Results.Ok("Request processed successfully.");
+});
+```
+
+#### **Database Table for Idempotency Keys**
+```sql
+CREATE TABLE IdempotencyKeys (
+    Key VARCHAR(255) PRIMARY KEY,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
