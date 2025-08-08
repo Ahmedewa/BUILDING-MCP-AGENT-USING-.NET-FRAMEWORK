@@ -1,0 +1,28 @@
+            SENDING NOTIFICATIONS
+
+
+### ** Sending Notifications**
+
+#### **Using Slack**
+1. Set up a Slack webhook.
+2. Send notifications for critical errors:
+   ```javascript
+   const slackWebhookUrl = 'https://hooks.slack.com/services/your-webhook-url';
+
+   const notifySlack = async (message) => {
+       await fetch(slackWebhookUrl, {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({ text: message }),
+       });
+   };
+
+   notifySlack("Critical error occurred in the MCP App!");
+   ```
+
+#### **Using PagerDuty**
+1. Integrate with PagerDuty's REST API.
+2. Trigger PagerDuty incidents for critical failures.
+
+---
+
