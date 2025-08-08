@@ -1,0 +1,45 @@
+     CODE QUALITY IMPROVEMENT MEASURES[ UNIT TESTING]
+
+
+### **Unit Testing**
+
+#### **Frontend**:
+1. Use **Jest** for testing React components:
+   ```bash
+   npm install --save-dev jest @testing-library/react
+   ```
+
+2. Write tests:
+   ```javascript
+   import { render, screen } from '@testing-library/react';
+   import App from './App';
+
+   test('renders learn react link', () => {
+       render(<App />);
+       const linkElement = screen.getByText(/learn react/i);
+       expect(linkElement).toBeInTheDocument();
+   });
+   ```
+
+#### **Backend**:
+1. Use **xUnit** for .NET tests:
+   ```bash
+   dotnet add package xunit
+   ```
+
+2. Write a unit test:
+   ```csharp
+   public class MathTests
+   {
+       [Fact]
+       public void Add_ReturnsCorrectSum()
+       {
+           var result = Math.Add(2, 3);
+           Assert.Equal(5, result);
+       }
+   }
+   ```
+
+---
+
+sk 
