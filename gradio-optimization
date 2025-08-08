@@ -1,0 +1,20 @@
+             ** GRADIO OPTIMIZATION**
+
+## ** Gradio Optimization**
+
+### **Optimize for Low Latency**
+1. Disable queuing in Gradio:
+   ```python
+   gr.Interface(fn=process_text, inputs="text", outputs="text").launch(
+       enable_queue=False
+   )
+   ```
+
+2. Optimize processing logic:
+   - Use caching libraries like **joblib** or **diskcache**.
+   - Optimize I/O operations to prevent blocking.
+
+---
+
+
+
