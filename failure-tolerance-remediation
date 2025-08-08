@@ -1,0 +1,39 @@
+               AUTOMATION OF REMEDIATION EFFORTS
+
+
+### **Automation of Remediation Efforts**
+
+#### **Distributed Retry Logic**
+Retry failed tasks across multiple instances using a **queue-based system** like RabbitMQ.
+
+#### **Circuit Breaker Pattern**
+1. Prevent overloading the system during failures by blocking requests temporarily.
+2. Use libraries like **Polly** (C#):
+   ```csharp
+   var circuitBreaker = Policy
+       .Handle<Exception>()
+       .CircuitBreaker(2, TimeSpan.FromMinutes(1));
+
+   await circuitBreaker.ExecuteAsync(() => DoTask());
+   ```
+
+#### **Exponential Backoff with Jitter**
+Add jitter to backoff times to prevent thundering herds:
+```javascript
+const retryWithJitter = async (operation, maxRetries = 5) => {
+    let retryCount = 0;
+
+    while (retryCount < maxRetries) {
+        try {
+            await operation();
+            return; // Success
+        } catch (error) {
+            retryCount++;
+            const jitter = Math.random() * 100; // Randomized delay
+            await new Promise((resolve) => setTimeout(resolve, Math.pow(2, retryCount) * 100 + jitter));
+        }
+    }
+};
+```
+
+---
