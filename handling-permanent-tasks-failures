@@ -1,0 +1,34 @@
+             **HANDLING PERMANENT TASKS FAILURE**
+
+
+
+### **Handling Permanent Task Failures**
+
+#### **Escalation of Tasks**
+1. Send notifications when a task permanently fails after retries.
+2. Use tools like **PagerDuty** or **Slack** for alerts.
+
+#### **Quarantine Failed Tasks**
+Move failed tasks to a **quarantine queue** for manual review or reprocessing.
+
+```csharp
+public async Task ProcessTaskWithQuarantine(Func<Task> operation, Queue quarantineQueue)
+{
+    try
+    {
+        await operation();
+    }
+    catch (Exception ex)
+    {
+        quarantineQueue.Enqueue(operation);
+        // Log the failure
+    }
+}
+```
+
+---
+
+Escalation**, **retry logic**, and **circuit breakers**.
+3. Monitor your app using **Prometheus** and visualize data in **Grafana**.
+4. Improve code quality with **linting**, **testing**, and **CI/CD pipelines**.
+
