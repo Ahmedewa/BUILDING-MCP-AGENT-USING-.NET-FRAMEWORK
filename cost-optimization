@@ -1,0 +1,78 @@
+                  COST OPTIMIZATION
+
+
+## **1. Cost Optimization**
+
+### **1.1 Use Spot Instances in AWS/GCP**
+
+#### **Spot Instances in AWS**
+- **Spot Instances** allow you to use unused EC2 capacity at a lower cost.
+
+1. **Create a Spot Instance**:
+   - Go to the **AWS Management Console** > **EC2 Dashboard** > **Spot Requests**.
+   - Click **Request Spot Instances**.
+   - Choose your instance type, AMI, and max price.
+
+2. **Spot Fleet for Auto Scaling**:
+   Use **Spot Fleet** to manage multiple spot instances.
+   ```json
+   {
+     "SpotFleetRequestConfig": {
+       "TargetCapacity": 5,
+       "SpotPrice": "0.03",
+       "LaunchSpecifications": [
+         {
+           "ImageId": "ami-12345678",
+           "InstanceType": "t2.micro",
+           "KeyName": "your-key",
+           "SecurityGroups": ["default"]
+         }
+       ]
+     }
+   }
+   ```
+
+   Deploy with:
+   ```bash
+   aws ec2 request-spot-fleet --spot-fleet-request-config file://spot-fleet.json
+   ```
+
+#### **Spot VMs in GCP**
+1. **Create a Spot VM**:
+   - Go to **Google Cloud Console** > **Compute Engine** > **VM Instances**.
+   - Click **Create Instance**.
+   - Under **Machine configuration**, check **Spot (preemptible)**.
+
+2. **Deploy with Terraform**:
+   ```hcl
+   resource "google_compute_instance" "spot_instance" {
+     name         = "spot-instance"
+     machine_type = "e2-micro"
+     scheduling {
+       preemptible = true
+     }
+   }
+   ```
+
+---
+
+### **1.2 Reserve Resources in Azure**
+
+#### **Why Reserved Instances?**
+- Reserved instances save up to 72% compared to pay-as-you-go pricing.
+
+1. **Purchase Reserved Instances**:
+   - Go to **Azure Portal** > **Reservations** > **Add**.
+   - Choose the subscription, instance type, and term (1 or 3 years).
+
+2. **CLI for Reserved Instances**:
+   ```bash
+   az reservations reservation order purchase \
+       --sku Standard_D2s_v3 \
+       --term P1Y \
+       --scope Shared \
+       --instance-count 5
+   ```
+
+---
+
