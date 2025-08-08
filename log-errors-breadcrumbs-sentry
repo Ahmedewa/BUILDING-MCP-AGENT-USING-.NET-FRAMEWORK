@@ -1,0 +1,78 @@
+          LOG-ERRORS-BREADCRUMBS SENTRY
+
+
+## **2. Error Tracking with Sentry**
+
+### **Best Practices**
+- Use breadcrumbs to log user actions leading to errors.
+- Configure alerts for critical errors via Slack, email, or other tools.
+
+---
+
+### **2.1 Sentry Setup for React.js**
+
+1. Install `@sentry/react`:
+   ```bash
+   npm install @sentry/react @sentry/tracing
+   ```
+
+2. Initialize Sentry:
+   ```javascript
+   import * as Sentry from '@sentry/react';
+   import { BrowserTracing } from '@sentry/tracing';
+
+   Sentry.init({
+       dsn: 'https://your-dsn@sentry.io/project-id',
+       integrations: [new BrowserTracing()],
+       tracesSampleRate: 1.0,
+   });
+   ```
+
+3. Add breadcrumbs:
+   ```javascript
+   Sentry.addBreadcrumb({
+       category: 'ui.click',
+       message: 'User clicked on the submit button',
+       level: 'info',
+   });
+   ```
+
+---
+
+### **2.2 Sentry Setup for .NET**
+
+1. Install Sentry NuGet package:
+   ```bash
+   dotnet add package Sentry.AspNetCore
+   ```
+
+2. Configure Sentry in `Program.cs`:
+   ```csharp
+   using Sentry;
+
+   var builder = WebApplication.CreateBuilder(args);
+
+   builder.WebHost.UseSentry(o =>
+   {
+       o.Dsn = "https://your-dsn@sentry.io/project-id";
+       o.TracesSampleRate = 1.0;
+   });
+
+   var app = builder.Build();
+   app.Run();
+   ```
+
+3. Capture exceptions:
+   ```csharp
+   try
+   {
+       throw new Exception("Test exception");
+   }
+   catch (Exception ex)
+   {
+       SentrySdk.CaptureException(ex);
+   }
+   ```
+
+---
+
