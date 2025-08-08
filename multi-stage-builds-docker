@@ -1,0 +1,66 @@
+         ##**DOCKERIZATION MULTI-STAGE-BUILDS**##
+
+## **Dockerization**
+
+### ** Multi-Stage Builds**
+
+#### **Backend (Dockerfile)**:
+```dockerfile
+# Stage 1: Build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /app
+COPY . .
+RUN dotnet publish -c Release -o /out
+
+# Stage 2: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=build /out .
+ENTRYPOINT ["dotnet", "MCPApp.dll"]
+```
+
+#### **Frontend (Dockerfile)**:
+```dockerfile
+# Stage 1: Build
+FROM node:16 AS build
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install
+COPY . .
+RUN yarn build
+
+# Stage 2: Runtime
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+---
+
+### **3.2 Environment Variables in Docker**
+
+#### **Backend **:
+1. Create `.env` file:
+   ```
+   DB_USER=admin
+   DB_PASS=supersecret
+   ```
+
+2. Add `.env` to `docker-compose.yml`:
+   ```yaml
+   services:
+     backend:
+       build: ./backend
+       env_file:
+         - .env
+   ```
+
+3. Load environment variables in .NET:
+   ```csharp
+   var builder = WebApplication.CreateBuilder(args);
+   builder.Configuration.AddEnvironmentVariables();
+   ```
+
+---
+
