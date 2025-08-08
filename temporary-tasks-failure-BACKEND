@@ -1,0 +1,39 @@
+              BUILDING FAILURE TOLERANCE INTO APP DESIGN[TEMPORARY FAILURE]
+
+
+## ** Building Failure Tolerance into the App Design**
+
+### ** Handling Temporary Task Failures**
+
+#### **Retry Mechanism with Exponential Backoff**
+1. Implement retries for temporary failures like network issues.
+2. Use exponential backoff to reduce load on the system.
+
+#### **Backend (.NET)**:
+```csharp
+public async Task RetryWithExponentialBackoff(Func<Task> operation, int maxRetries = 5)
+{
+    int retryCount = 0;
+    int delay = 100; // Initial delay in milliseconds
+
+    while (retryCount < maxRetries)
+    {
+        try
+        {
+            await operation();
+            return; // Success
+        }
+        catch (Exception ex)
+        {
+            retryCount++;
+            if (retryCount == maxRetries) throw;
+
+            await Task.Delay(delay);
+            delay *= 2; // Exponential backoff
+        }
+    }
+}
+```
+
+---
+
